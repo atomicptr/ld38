@@ -22,7 +22,7 @@ func decrease_health():
     if health > 0:
         health -= 1
     else:
-        return
+        return # TODO: you died, game over!
 
     anim_running = true
 

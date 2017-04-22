@@ -25,8 +25,6 @@ func _fixed_process(delta):
     if is_colliding():
         var hit = get_collider()
 
-        print(hit)
-
         for group in hittable:
             if hit.is_in_group(group):
                 if hit.has_method("hit"):

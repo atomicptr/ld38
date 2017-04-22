@@ -11,19 +11,19 @@ const ACCELERATION = 7.0
 const PARTICLE_LIFETIME_MOVING = 0.7
 const PARTICLE_LIFETIME_STILL = 0.4
 const BULLET_DELAY = 0.1
+const IFRAME_TIME = 2.0 # 2s iframe
 
-const DAMAGE_FROM_BODYCONTACT = 80
+const DAMAGE_FROM_BODYCONTACT = 30
 
 var time = 0.0
 
 var health = 100
-var shield = 100
-var shield_recharging = false
 
 var velocity = Vector2(0, 0)
 var is_in_earth_collider = false
 
 var last_bullet_shot = 0.0
+var last_hit_received = 0.0
 
 func _ready():
     set_process(true)
@@ -86,20 +86,14 @@ func spawn_bullet(direction_vector):
     return bullet
 
 func hit(damage):
-    # after hit check if iframe TODO
-    if shield > 0:
-        shield -= damage
-        if shield < 0:
-            shield_recharging = true
-            shield = 0
-            return
-        damage = 0
+    if time - last_hit_received > IFRAME_TIME:
+        health -= damage
+        last_hit_received = time
 
-    if shield_recharging:
-        pass # hit, while shield was recharging? Reset again
+    if health <= 0:
+        pass # TODO: you died, game over!
 
-    health -= damage
-    # TODO: if health < 0, you died also explosion, game over screen and shit
+    print("Health: ", health)
 
 func on_contact_with_enemy():
     self.hit(DAMAGE_FROM_BODYCONTACT)

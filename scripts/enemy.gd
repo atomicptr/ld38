@@ -3,9 +3,10 @@ extends KinematicBody2D
 const MOVEMENT_SPEED = 50.0
 
 var rnd_movement_speed_mod = 0.0
+var speed_bonus = 1.0
 
 func _ready():
-    rnd_movement_speed_mod = randf() * MOVEMENT_SPEED
+    rnd_movement_speed_mod = randf() * (MOVEMENT_SPEED + speed_bonus)
 
     set_process(true)
 
@@ -25,6 +26,9 @@ func _process(delta):
 func hit():
     print("ENEMY GOT HIT!!!")
     destroy()
+
+func set_speed_bonus(bonus):
+    speed_bonus = bonus
 
 func destroy():
     get_tree().get_root().get_node("game").explode(get_global_pos())

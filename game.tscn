@@ -263,10 +263,12 @@ shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
-[node name="spawner" type="KinematicBody2D" parent="."]
+[node name="spawner" type="KinematicBody2D" parent="." groups=[
+"enemy",
+]]
 
 editor/display_folded = true
-transform/pos = Vector2( 20, -5 )
+transform/pos = Vector2( 20, 10 )
 input/pickable = false
 collision/layers = 1
 collision/mask = 1
