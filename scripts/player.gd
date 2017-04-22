@@ -14,6 +14,10 @@ const BULLET_DELAY = 0.1
 
 var time = 0.0
 
+var health = 100
+var shield = 100
+var shield_recharging = false
+
 var velocity = Vector2(0, 0)
 var is_in_earth_collider = false
 
@@ -51,16 +55,41 @@ func _process(delta):
 
     time += delta
 
+    # clean bullets
+    for bullet in bullet_container.get_children():
+        if bullet.get_global_pos().y < -100:
+            bullet.queue_free()
+
 func shoot_bullet():
     if time - last_bullet_shot > BULLET_DELAY:
-        var bullet = bullet_prefab.instance()
-        var bullet_pos = get_global_pos()
-        bullet_pos.y -= 10.0
-
-        bullet_container.add_child(bullet)
-        bullet.set_global_pos(bullet_pos)
-
+        spawn_bullet(Vector2(0, -1))
         last_bullet_shot = time
+
+func spawn_bullet(direction_vector):
+    var bullet = bullet_prefab.instance()
+    var bullet_pos = get_global_pos()
+    bullet_pos.y -= 10.0
+    bullet.add_collision_exception_with(self)
+    bullet.make_hittable("enemy")
+    bullet.set_direction_vector(direction_vector)
+    bullet_container.add_child(bullet)
+    bullet.set_global_pos(bullet_pos)
+    return bullet
+
+func hit(damage):
+    if shield > 0:
+        shield -= damage
+        if shield < 0:
+            shield_recharging = true
+            shield = 0
+            return
+        damage = 0
+
+    if shield_recharging:
+        pass # hit, while shield was recharging? Reset again
+
+    health -= damage
+    # TODO: if health < 0, you died
 
 func _on_earth_body_enter(body):
     if body.is_in_group("player"):
