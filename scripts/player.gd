@@ -2,14 +2,22 @@ extends KinematicBody2D
 
 onready var particles = get_node("particles")
 onready var earth = get_node("../earth")
+onready var bullet_container = get_node("bullet_container")
+
+onready var bullet_prefab = preload("res://entities/bullet.tscn")
 
 const ACCELERATION = 7.0
 
 const PARTICLE_LIFETIME_MOVING = 0.7
 const PARTICLE_LIFETIME_STILL = 0.4
+const BULLET_DELAY = 0.15
+
+var time = 0.0
 
 var velocity = Vector2(0, 0)
 var is_in_earth_collider = false
+
+var last_bullet_shot = 0.0
 
 func _ready():
     set_process(true)
@@ -28,7 +36,7 @@ func _process(delta):
         velocity.y += ACCELERATION
 
     if Input.is_action_pressed("fire"):
-        pass
+        shoot_bullet()
 
     if is_in_earth_collider:
         velocity.y -= (ACCELERATION * 2)
@@ -39,7 +47,16 @@ func _process(delta):
         particles.set_lifetime(PARTICLE_LIFETIME_STILL)
 
     move(velocity * delta)
-    velocity *= 0.96
+    velocity *= 0.96 # slow down...
+
+    time += delta
+
+func shoot_bullet():
+    if time - last_bullet_shot > BULLET_DELAY:
+        var bullet = bullet_prefab.instance()
+        bullet_container.add_child(bullet)
+
+        last_bullet_shot = time
 
 func _on_earth_body_enter(body):
     if body.is_in_group("player"):
