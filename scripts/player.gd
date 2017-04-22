@@ -12,6 +12,8 @@ const PARTICLE_LIFETIME_MOVING = 0.7
 const PARTICLE_LIFETIME_STILL = 0.4
 const BULLET_DELAY = 0.1
 
+const DAMAGE_FROM_BODYCONTACT = 80
+
 var time = 0.0
 
 var health = 100
@@ -55,6 +57,14 @@ func _process(delta):
 
     time += delta
 
+    # check if is colliding with enemy
+    if is_colliding():
+        var hit = get_collider()
+
+        if hit.is_in_group("enemy"):
+            hit.queue_free()
+            self.hit(DAMAGE_FROM_BODYCONTACT)
+
     # clean bullets
     for bullet in bullet_container.get_children():
         if bullet.get_global_pos().y < -100:
@@ -77,6 +87,7 @@ func spawn_bullet(direction_vector):
     return bullet
 
 func hit(damage):
+    # after hit check if iframe TODO
     if shield > 0:
         shield -= damage
         if shield < 0:
@@ -89,7 +100,10 @@ func hit(damage):
         pass # hit, while shield was recharging? Reset again
 
     health -= damage
-    # TODO: if health < 0, you died
+    # TODO: if health < 0, you died also explosion, game over screen and shit
+
+func on_contact_with_enemy():
+    self.hit(DAMAGE_FROM_BODYCONTACT)
 
 func _on_earth_body_enter(body):
     if body.is_in_group("player"):

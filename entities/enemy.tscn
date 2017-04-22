@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 12.2891, 7.34009 )
+extents = Vector2( 12.485, 7.40945 )
 
 [node name="enemy" type="KinematicBody2D" groups=[
 "enemy",

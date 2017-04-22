@@ -38,6 +38,9 @@ func decrease_health():
     if health == 1:
         target_scale = Vector2(0.4, 0.4)
 
+    # TODO: flash screen
+    get_tree().call_group(0, "enemy", "destroy")
+
 func change_size(delta):
     var scalex = lerp(get_scale().x, target_scale.x, SCALE_SPEED * delta)
     var scaley = lerp(get_scale().y, target_scale.y, SCALE_SPEED * delta)
