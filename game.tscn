@@ -5,17 +5,17 @@
 [ext_resource path="res://scripts/earth.gd" type="Script" id=3]
 [ext_resource path="res://assets/earth.png" type="Texture" id=4]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 1.00005, 161.31 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
+extents = Vector2( 12.2891, 7.34009 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 39.2955, 10.4732 )
@@ -28,7 +28,7 @@ transform/scale = Vector2( 2, 2 )
 
 [node name="emitter1" type="Particles2D" parent="stars"]
 
-visibility/opacity = 0.25
+visibility/opacity = 0.4
 transform/pos = Vector2( -121.341, 344.615 )
 transform/rot = 130.0
 config/amount = 500
@@ -66,7 +66,7 @@ randomness/anim_initial_pos = 1.0
 
 [node name="emitter2" type="Particles2D" parent="stars"]
 
-visibility/opacity = 0.25
+visibility/opacity = 0.4
 transform/pos = Vector2( 309.833, -28.3956 )
 transform/rot = -60.0
 config/amount = 500
@@ -107,7 +107,7 @@ randomness/anim_initial_pos = 1.0
 editor/display_folded = true
 transform/pos = Vector2( 0, 128 )
 input/pickable = false
-shapes/0/shape = SubResource( 2 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -119,7 +119,7 @@ bounce = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="left_wall"]
 
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
@@ -128,7 +128,7 @@ _update_shape_index = 0
 editor/display_folded = true
 transform/pos = Vector2( 161, 128 )
 input/pickable = false
-shapes/0/shape = SubResource( 2 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -140,7 +140,7 @@ bounce = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="right_wall"]
 
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
@@ -150,8 +150,8 @@ _update_shape_index = 0
 
 transform/pos = Vector2( 80, 186.5 )
 input/pickable = false
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 0.25, 0, 0, 0.4, 0, 0 )
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 0.25, 0, 0, 0.570727, 0, 0.219451 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -199,8 +199,9 @@ randomness/final_size = 0.8
 
 [node name="colshape" type="CollisionShape2D" parent="player"]
 
-transform/scale = Vector2( 0.25, 0.4 )
-shape = SubResource( 3 )
+transform/pos = Vector2( 0, 0.219451 )
+transform/scale = Vector2( 0.25, 0.570727 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
@@ -208,7 +209,7 @@ _update_shape_index = 0
 
 transform/pos = Vector2( 80, 299.5 )
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 8, 0, 0, 9.5, 0.451263, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -225,7 +226,7 @@ texture = ExtResource( 4 )
 
 transform/pos = Vector2( 0.451263, 0 )
 transform/scale = Vector2( 8, 9.5 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 trigger = true
 _update_shape_index = 0
 
