@@ -26,6 +26,8 @@ transform/scale = Vector2( 2, 2 )
 
 [node name="stars" type="Node2D" parent="."]
 
+editor/display_folded = true
+
 [node name="emitter1" type="Particles2D" parent="stars"]
 
 visibility/opacity = 0.4
@@ -144,6 +146,8 @@ shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
+[node name="bullet_container" type="Node2D" parent="."]
+
 [node name="player" type="KinematicBody2D" parent="." groups=[
 "player",
 ]]
@@ -204,10 +208,6 @@ transform/scale = Vector2( 0.25, 0.570727 )
 shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
-
-[node name="bullet_container" type="Node2D" parent="player"]
-
-transform/pos = Vector2( 0, -6 )
 
 [node name="earth" type="Area2D" parent="."]
 

@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 onready var particles = get_node("particles")
 onready var earth = get_node("../earth")
-onready var bullet_container = get_node("bullet_container")
+onready var bullet_container = get_tree().get_root().get_node("game/bullet_container")
 
 onready var bullet_prefab = preload("res://entities/bullet.tscn")
 
@@ -10,7 +10,7 @@ const ACCELERATION = 7.0
 
 const PARTICLE_LIFETIME_MOVING = 0.7
 const PARTICLE_LIFETIME_STILL = 0.4
-const BULLET_DELAY = 0.15
+const BULLET_DELAY = 0.1
 
 var time = 0.0
 
@@ -54,7 +54,11 @@ func _process(delta):
 func shoot_bullet():
     if time - last_bullet_shot > BULLET_DELAY:
         var bullet = bullet_prefab.instance()
+        var bullet_pos = get_global_pos()
+        bullet_pos.y -= 10.0
+
         bullet_container.add_child(bullet)
+        bullet.set_global_pos(bullet_pos)
 
         last_bullet_shot = time
 
