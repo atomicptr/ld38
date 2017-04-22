@@ -4,15 +4,16 @@ onready var particles = get_node("particles")
 
 const ACCELERATION = 7.0
 
-var velocity = Vector2(0, 0)
+const PARTICLE_LIFETIME_MOVING = 0.7
+const PARTICLE_LIFETIME_STILL = 0.4
 
+var velocity = Vector2(0, 0)
 var is_in_earth_collider = false
 
 func _ready():
     set_process(true)
 
 func _process(delta):
-
     if Input.is_action_pressed("left"):
         velocity.x -= (ACCELERATION * 0.8)
 
@@ -28,7 +29,11 @@ func _process(delta):
     if is_in_earth_collider:
         velocity.y -= (ACCELERATION * 1.5)
 
-    print(velocity)
+    print(velocity.length())
+    if velocity.length() > 30:
+        particles.set_lifetime(PARTICLE_LIFETIME_MOVING)
+    else:
+        particles.set_lifetime(PARTICLE_LIFETIME_STILL)
 
     move(velocity * delta)
     velocity *= 0.96
