@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 onready var particles = get_node("particles")
+onready var earth = get_node("../earth")
 
 const ACCELERATION = 7.0
 
@@ -26,10 +27,12 @@ func _process(delta):
     if Input.is_action_pressed("down"):
         velocity.y += ACCELERATION
 
-    if is_in_earth_collider:
-        velocity.y -= (ACCELERATION * 1.5)
+    if Input.is_action_pressed("fire"):
+        pass
 
-    print(velocity.length())
+    if is_in_earth_collider:
+        velocity.y -= (ACCELERATION * 2)
+
     if velocity.length() > 30:
         particles.set_lifetime(PARTICLE_LIFETIME_MOVING)
     else:
