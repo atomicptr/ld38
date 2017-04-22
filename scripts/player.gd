@@ -1,10 +1,17 @@
-extends Sprite
-
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+extends KinematicBody2D
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
+    set_process(true)
+
+func _process(delta):
+    if Input.is_action_pressed("left"):
+        move(Vector2(-1, 0))
+
+    if Input.is_action_pressed("right"):
+        move(Vector2(1, 0))
+
+    if Input.is_action_pressed("up"):
+        move(Vector2(0, -1))
+
+    if Input.is_action_pressed("down"):
+        move(Vector2(0, 1))
