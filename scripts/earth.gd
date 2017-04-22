@@ -38,7 +38,12 @@ func decrease_health():
     if health == 1:
         target_scale = Vector2(0.4, 0.4)
 
-    # TODO: flash screen
+    var explosion = get_tree().get_root().get_node("game").explode(get_global_pos()).get_node("particles")
+    explosion.set_param(2, 500) # Linear Velocity
+    explosion.set_param(11, 1.5) # initial size
+    explosion.set_amount(1000)
+    explosion.set_color(Color("#0099FF"))
+
     get_tree().call_group(0, "enemy", "destroy")
 
 func change_size(delta):

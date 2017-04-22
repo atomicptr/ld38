@@ -62,7 +62,6 @@ func _process(delta):
         var hit = get_collider()
 
         if hit.is_in_group("enemy"):
-            hit.queue_free()
             self.hit(DAMAGE_FROM_BODYCONTACT)
 
     # clean bullets
