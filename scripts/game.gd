@@ -3,6 +3,7 @@ extends Node2D
 onready var explosion_prefab = preload("res://entities/explosion.tscn")
 onready var healthpickup_prefab = preload("res://entities/health_pickup.tscn")
 onready var powerup_prefab = preload("res://entities/powerup_pickup.tscn")
+onready var bomb_prefab = preload("res://entities/bomb_pickup.tscn")
 
 onready var exp_container = get_node("explosion_container")
 onready var gameover_gui = get_node("gameover")
@@ -74,6 +75,8 @@ func drop_chance(pos):
         drop_pickup(healthpickup_prefab, pos)
     elif (rng == 10 or rng == 14 or rng == 18) and player != null and player.upgrade_level + 1 < player.UPGRADE_LEVELS.size(): # don't drop if player has fully upgraded
         drop_pickup(powerup_prefab, pos)
+    elif rng == 16:
+        drop_pickup(bomb_prefab, pos)
 
 func drop_pickup(prefab, pos):
     print("Dropped pickup at ", pos)
