@@ -90,6 +90,7 @@ func _process(delta):
 
         if hit.is_in_group("enemy"):
             self.hit(DAMAGE_FROM_BODYCONTACT)
+            hit.destroy()
 
     # clean bullets
     for bullet in bullet_container.get_children():
