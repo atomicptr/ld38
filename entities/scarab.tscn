@@ -1,48 +1,61 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=5 format=1]
 
-[ext_resource path="res://scripts/enemy.gd" type="Script" id=1]
-[ext_resource path="res://assets/rocket.png" type="Texture" id=2]
+[ext_resource path="res://scripts/scarab.gd" type="Script" id=1]
+[ext_resource path="res://assets/scarab.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 12.485, 7.40945 )
+extents = Vector2( 3.58383, 4.05768 )
 
-[node name="enemy" type="KinematicBody2D" groups=[
+[sub_resource type="ColorRamp" id=2]
+
+offsets = FloatArray( 0, 1 )
+colors = ColorArray( 0, 1, 0.0390625, 1, 0.0814362, 0.375, 0.0644531, 1 )
+
+[node name="scarab" type="KinematicBody2D" groups=[
 "enemy",
 ]]
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 0.25, 0, 0, 0.570727, 0, 0.219451 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
 
-[node name="rocket" type="Sprite" parent="."]
+[node name="scarab" type="Sprite" parent="."]
 
 texture = ExtResource( 2 )
-flip_v = true
-modulate = Color( 1, 0, 0, 1 )
+
+[node name="colshape" type="CollisionShape2D" parent="."]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
 
 [node name="particles" type="Particles2D" parent="."]
 
-transform/pos = Vector2( 0, -3.5 )
+visibility/behind_parent = true
 transform/rot = 180.0
 config/amount = 200
-config/lifetime = 0.7
+config/lifetime = 0.5
+config/time_scale = 0.5
+config/emit_timeout = 0.1
+config/emitting = false
 config/process_mode = 1
 config/local_space = false
+config/explosiveness = 0.5
 params/direction = 0.0
-params/spread = 15.0
+params/spread = 200.0
 params/linear_velocity = 50.0
 params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
+params/orbit_velocity = 1.0
 params/gravity_direction = 0.0
 params/gravity_strength = 9.8
-params/radial_accel = 0.0
+params/radial_accel = 10.0
 params/tangential_accel = 0.0
 params/damping = 0.0
 params/initial_angle = 0.0
@@ -54,7 +67,6 @@ params/anim_initial_pos = 0.0
 randomness/direction = 0.8
 randomness/spread = 0.8
 randomness/linear_velocity = 0.5
-randomness/orbit_velocity = 0.5
 randomness/gravity_direction = 0.4
 randomness/gravity_strength = 0.5
 randomness/radial_accel = 0.2
@@ -62,13 +74,15 @@ randomness/damping = 0.7
 randomness/initial_angle = 0.4
 randomness/initial_size = 0.2
 randomness/final_size = 0.8
+color/color_ramp = SubResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="timer" type="Timer" parent="."]
 
-transform/pos = Vector2( 0, 0.219451 )
-transform/scale = Vector2( 0.25, 0.570727 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
 
 

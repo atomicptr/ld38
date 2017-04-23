@@ -3,11 +3,13 @@ extends KinematicBody2D
 onready var Game = get_tree().get_root().get_node("game")
 
 onready var enemy_prefab = preload("res://entities/enemy.tscn")
+onready var enemy2_prefab = preload("res://entities/enemy2.tscn")
+onready var scarab_prefab = preload("res://entities/scarab.tscn")
 onready var boss_prefab = preload("res://entities/boss.tscn")
 
 const MIN = 20
 const MAX = 300
-const DELAY = 1.5
+const DELAY = 2
 
 var direction = 1
 
@@ -33,10 +35,16 @@ func _process(delta):
 
     move(Vector2(50 * direction * delta, 0))
 
-    extra_delay = randf() * 3.0
+    if time - last_enemy_spawned > max(DELAY - (speed_bonus / 5), 0.3):
+        var enemy = null
 
-    if time - last_enemy_spawned > min(DELAY + extra_delay - (speed_bonus / 10), 1.0):
-        var enemy = enemy_prefab.instance()
+        if Game.score > 500 and (randi() % 100) > 95:
+            enemy = enemy2_prefab.instance()
+        elif Game.score > 1000 and (randi() % 100) > 90:
+            enemy = scarab_prefab.instance()
+        else:
+            enemy = enemy_prefab.instance()
+
         enemy.set_speed_bonus(speed_bonus) # make them faster with time
         Game.add_child(enemy)
         enemy.set_global_pos(get_global_pos())

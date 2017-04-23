@@ -16,6 +16,7 @@ const BULLET_DELAY = 0.1
 const IFRAME_TIME = 5.0 # 5s iframe
 
 const DAMAGE_FROM_BODYCONTACT = 50
+const DAMAGE_FROM_BODYCONTACT_SCARAB = 25
 const HEALTH_PICKUP_VAL = 25
 
 const UPGRADE_LEVELS = {
@@ -154,6 +155,18 @@ func destroy():
 
 func on_contact_with_enemy():
     self.hit(DAMAGE_FROM_BODYCONTACT)
+
+func on_contact_with_enemy2():
+    Game.sfx("explosion_earth")
+    var explosion = Game.explode(get_global_pos(), false).get_node("particles")
+    explosion.set_param(2, 500) # Linear Velocity
+    explosion.set_param(11, 1.5) # initial size
+    explosion.set_amount(1000)
+    explosion.set_color(Color("#BE2633"))
+    Game.game_over()
+
+func on_contact_with_scarab():
+    self.hit(DAMAGE_FROM_BODYCONTACT_SCARAB)
 
 func _on_earth_body_enter(body):
     if body.is_in_group("player"):
