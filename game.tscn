@@ -403,6 +403,25 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
+[node name="overheat_warning" type="Label" parent="gui"]
+
+visibility/visible = false
+rect/scale = Vector2( 0.5, 0.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -2.0
+margin/top = 60.0
+margin/right = 328.0
+margin/bottom = 74.0
+custom_colors/font_color = Color( 0, 0.6, 1, 1 )
+text = "Weapon systems are overheated!"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [connection signal="body_enter" from="earth" to="player" method="_on_earth_body_enter"]
 
 [connection signal="body_exit" from="earth" to="player" method="_on_earth_body_exit"]

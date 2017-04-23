@@ -16,15 +16,21 @@ const IFRAME_TIME = 5.0 # 5s iframe
 
 const DAMAGE_FROM_BODYCONTACT = 30
 
+const OVERHEAT_PER_SHOT = 5
+const OVERHEAT_COOLDOWN_TIME = 0.75 # .75s
+
 var time = 0.0
 
 var health = 100
+var overheat = 0
+var is_overheat = false
 
 var velocity = Vector2(0, 0)
 var is_in_earth_collider = false
 
 var last_bullet_shot = 0.0
 var last_hit_received = -IFRAME_TIME
+var last_overheat_cooltime = 0.0
 
 func _ready():
     set_process(true)
@@ -64,6 +70,16 @@ func _process(delta):
     else:
         sprite.set_modulate(Color("#FFFFFF"))
 
+    # cool down weapon if it's overheat
+    if overheat > 0:
+        if time - last_overheat_cooltime > OVERHEAT_COOLDOWN_TIME:
+            overheat -= OVERHEAT_PER_SHOT
+            last_overheat_cooltime = time
+
+    if is_overheat and overheat <= 0:
+        overheat = 0
+        is_overheat = false
+
     # check if is colliding with enemy
     if is_colliding():
         var hit = get_collider()
@@ -77,8 +93,14 @@ func _process(delta):
             bullet.queue_free()
 
 func shoot_bullet():
-    if time - last_bullet_shot > BULLET_DELAY:
+    if not is_overheat and time - last_bullet_shot > BULLET_DELAY:
         spawn_bullet(Vector2(0, -1))
+
+        overheat += OVERHEAT_PER_SHOT
+
+        if overheat >= 100:
+            is_overheat = true
+
         last_bullet_shot = time
 
 func spawn_bullet(direction_vector):
