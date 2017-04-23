@@ -6,6 +6,12 @@ onready var exp_container = get_node("explosion_container")
 var explosions = []
 var to_remove = []
 
+var score = 0
+
+func add_score(add):
+    score += add
+    print("Score: ", score)
+
 func explode(pos):
     # testa
     var explosion = explosion_prefab.instance()

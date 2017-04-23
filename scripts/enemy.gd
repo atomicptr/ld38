@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+onready var Game = get_tree().get_root().get_node("game")
+
 const MOVEMENT_SPEED = 50.0
 
 var rnd_movement_speed_mod = 0.0
@@ -31,5 +33,6 @@ func set_speed_bonus(bonus):
     speed_bonus = bonus
 
 func destroy():
-    get_tree().get_root().get_node("game").explode(get_global_pos())
+    Game.add_score(50)
+    Game.explode(get_global_pos())
     queue_free()

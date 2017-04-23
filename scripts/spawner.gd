@@ -20,8 +20,11 @@ func _ready():
 func _process(delta):
     var x = get_global_pos().x
 
-    if x <= MIN+5 or x >= MAX-5:
-        direction *= -1
+    if x <= MIN:
+        direction = 1
+
+    if x >= MAX:
+        direction = -1
 
     move(Vector2(50 * direction * delta, 0))
 
@@ -37,9 +40,6 @@ func _process(delta):
         speed_bonus += 0.1
 
     time += delta
-
-    if x < 10 or x > 310: # if it bugs too far into one direction, reset
-        set_pos(Vector2(150, get_pos().y))
 
 func destroy():
     print("all enemies destroyed, reset speed bonus... was ", speed_bonus)

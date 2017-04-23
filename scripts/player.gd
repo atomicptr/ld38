@@ -3,6 +3,7 @@ extends KinematicBody2D
 onready var particles = get_node("particles")
 onready var earth = get_node("../earth")
 onready var bullet_container = get_tree().get_root().get_node("game/bullet_container")
+onready var sprite = get_node("rocket")
 
 onready var bullet_prefab = preload("res://entities/bullet.tscn")
 
@@ -11,7 +12,7 @@ const ACCELERATION = 7.0
 const PARTICLE_LIFETIME_MOVING = 0.7
 const PARTICLE_LIFETIME_STILL = 0.4
 const BULLET_DELAY = 0.1
-const IFRAME_TIME = 2.0 # 2s iframe
+const IFRAME_TIME = 5.0 # 5s iframe
 
 const DAMAGE_FROM_BODYCONTACT = 30
 
@@ -23,7 +24,7 @@ var velocity = Vector2(0, 0)
 var is_in_earth_collider = false
 
 var last_bullet_shot = 0.0
-var last_hit_received = 0.0
+var last_hit_received = -IFRAME_TIME
 
 func _ready():
     set_process(true)
@@ -56,6 +57,12 @@ func _process(delta):
     velocity *= 0.96 # slow down...
 
     time += delta
+
+    # change color white in iframe
+    if time - last_hit_received < IFRAME_TIME:
+        sprite.set_modulate(Color("#FFFF00"))
+    else:
+        sprite.set_modulate(Color("#FFFFFF"))
 
     # check if is colliding with enemy
     if is_colliding():
