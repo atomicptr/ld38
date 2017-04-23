@@ -30,7 +30,7 @@ const UPGRADE_LEVELS = {
 }
 
 const OVERHEAT_PER_SHOT = 5
-const OVERHEAT_COOLDOWN_TIME = 0.6 # .6s
+const OVERHEAT_COOLDOWN_TIME = 0.6 # seconds
 
 var time = 0.0
 
@@ -88,9 +88,13 @@ func _process(delta):
     if overheat > 0:
         if time - last_overheat_cooltime > OVERHEAT_COOLDOWN_TIME:
             if is_overheat:
-                overheat -= OVERHEAT_PER_SHOT * 2
+                overheat -= OVERHEAT_PER_SHOT * 3
             else:
                 overheat -= OVERHEAT_PER_SHOT
+
+            if overheat < 0:
+                overheat = 0
+
             last_overheat_cooltime = time
 
     if is_overheat and overheat <= 0:
