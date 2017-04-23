@@ -10,6 +10,7 @@ extents = Vector2( 4.07468, 4.15563 )
 
 [node name="bomb_pickup" type="Area2D"]
 
+transform/pos = Vector2( -0.12851, -0.128513 )
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -33,7 +34,7 @@ _update_shape_index = 0
 [node name="timer" type="Timer" parent="."]
 
 process_mode = 1
-wait_time = 5.0
+wait_time = 3.0
 one_shot = false
 autostart = true
 

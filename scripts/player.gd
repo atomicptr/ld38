@@ -175,3 +175,7 @@ func on_powerup_pickup():
 
     if upgrade_level + 1 < UPGRADE_LEVELS.size():
         upgrade_level += 1
+    else:
+        overheat -= 15
+        if overheat < 0:
+            overheat = 0
