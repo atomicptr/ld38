@@ -1,7 +1,7 @@
 # LD38: Something about rockets that shrink planets!
 
 This is my [Ludum Dare](https://ldjam.com) 38 "Small Worlds" compo entry "Something about rockets that shrink planets!" (naming things is hard!).
-I made this in ~18 hours using [Godot](https://godotengine.org). This is my first Godot project so it's quite messy ;).
+I made this in ~24 hours using [Godot](https://godotengine.org). This is my first Godot project so it's quite messy ;).
 
 "Something about rockets that shrink planets!" is a top down shooter thingy, where you have to protect your home planet from incoming ~~aliens~~ rockets (when you don't have time to makes good enemies
 they become suicidal and then rockets!)
