@@ -22,7 +22,7 @@ func decrease_health():
 
     Game.sfx("explosion_earth")
 
-    if health > 0:
+    if health - 1 > 0:
         health -= 1
     else:
         var explosion = Game.explode(get_global_pos(), false).get_node("particles")

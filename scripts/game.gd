@@ -71,7 +71,7 @@ func drop_chance(pos):
 
     if rng < 5:
         drop_pickup(healthpickup_prefab, pos)
-    elif (rng == 10 or rng == 18 or true) and player.upgrade_level + 1 < player.UPGRADE_LEVELS.size(): # don't drop if player has fully upgraded
+    elif (rng == 10 or rng == 18) and player != null and player.upgrade_level + 1 < player.UPGRADE_LEVELS.size(): # don't drop if player has fully upgraded
         drop_pickup(powerup_prefab, pos)
 
 func drop_pickup(prefab, pos):

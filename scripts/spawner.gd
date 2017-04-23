@@ -30,7 +30,7 @@ func _process(delta):
 
     extra_delay = randf() * 3.0
 
-    if time - last_enemy_spawned > DELAY + extra_delay:
+    if time - last_enemy_spawned > (DELAY + extra_delay - (speed_bonus / 10)):
         var enemy = enemy_prefab.instance()
         enemy.set_speed_bonus(speed_bonus) # make them faster with time
         get_tree().get_root().get_node("game").add_child(enemy)
