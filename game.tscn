@@ -568,6 +568,23 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
+[node name="restart_button" type="Button" parent="gameover"]
+
+rect/scale = Vector2( 0.5, 0.5 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 36.0
+margin/top = 270.0
+margin/right = 209.0
+margin/bottom = 290.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Restart Game!"
+flat = false
+
 [node name="sounds" type="SamplePlayer" parent="."]
 
 config/polyphony = 4
@@ -588,5 +605,7 @@ default/chorus_send = 0.0
 [connection signal="body_enter" from="earth" to="player" method="_on_earth_body_enter"]
 
 [connection signal="body_exit" from="earth" to="player" method="_on_earth_body_exit"]
+
+[connection signal="pressed" from="gameover/restart_button" to="." method="_on_restart_button_pressed"]
 
 

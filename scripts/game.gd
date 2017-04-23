@@ -93,3 +93,6 @@ func game_over():
 
 func sfx(name, mult=false):
     sounds.play(name, mult)
+
+func _on_restart_button_pressed():
+    get_tree().change_scene("res://game.tscn")
