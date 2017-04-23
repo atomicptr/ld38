@@ -4,6 +4,9 @@ onready var hp = get_node("hp")
 onready var overheat = get_node("overheat")
 onready var score = get_node("score")
 
+onready var upgrades = get_node("upgrades")
+onready var upgrade_lvl = upgrades.get_node("lvl")
+
 onready var overheat_warning = get_node("overheat_warning")
 
 onready var Game = get_tree().get_root().get_node("game")
@@ -20,5 +23,11 @@ func _process(delta):
         overheat_warning.show()
     else:
         overheat_warning.hide()
+
+    if player.upgrade_level > 0:
+        upgrades.show()
+        upgrade_lvl.set_text("+" + String(player.upgrade_level))
+    else:
+        upgrades.hide()
 
     score.set_text(String(Game.score))

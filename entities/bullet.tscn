@@ -8,15 +8,16 @@
 custom_solver_bias = 0.0
 extents = Vector2( 0.534058, 1.48654 )
 
-[node name="bullet" type="KinematicBody2D"]
+[node name="bullet" type="Area2D"]
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
-collision/layers = 1
-collision/mask = 1
-collision/margin = 0.08
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
 script/script = ExtResource( 1 )
 
 [node name="sprite" type="Sprite" parent="."]
@@ -28,5 +29,7 @@ texture = ExtResource( 2 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[connection signal="body_enter" from="." to="." method="_on_bullet_body_enter"]
 
 

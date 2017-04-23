@@ -1,11 +1,15 @@
 extends Node2D
 
 onready var explosion_prefab = preload("res://entities/explosion.tscn")
+onready var healthpickup_prefab = preload("res://entities/health_pickup.tscn")
+onready var powerup_prefab = preload("res://entities/powerup_pickup.tscn")
+
 onready var exp_container = get_node("explosion_container")
 onready var gameover_gui = get_node("gameover")
 onready var sounds = get_node("sounds")
 
 onready var earth = get_node("earth")
+onready var player = get_node("player")
 
 var explosions = []
 var to_remove = []
@@ -15,7 +19,9 @@ var gameover = false
 
 var time = 0.0
 var last_go_explosion = 3.0
-const EXPLOSION_TIMEOUT = .5
+const EXPLOSION_TIMEOUT = .75
+
+const DROP_MODIFIER = 20 # 20 means 1 in 20 chance to drop
 
 func _ready():
     set_process(true)
@@ -60,9 +66,23 @@ func explode(pos, sound=true):
 
     return explosion
 
+func drop_chance(pos):
+    var rng = randi() % DROP_MODIFIER
+
+    if rng < 5:
+        drop_pickup(healthpickup_prefab, pos)
+    elif (rng == 10 or rng == 18 or true) and player.upgrade_level + 1 < player.UPGRADE_LEVELS.size(): # don't drop if player has fully upgraded
+        drop_pickup(powerup_prefab, pos)
+
+func drop_pickup(prefab, pos):
+    print("Dropped pickup at ", pos)
+    var pickup = prefab.instance()
+    add_child(pickup)
+    pickup.set_global_pos(pos)
+
 func game_over():
     get_node("gui").queue_free()
-    get_node("player").destroy()
+    player.destroy()
     get_node("spawner").queue_free()
     get_tree().call_group(0, "enemy", "destroy")
     time = 0.0

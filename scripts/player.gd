@@ -15,7 +15,19 @@ const PARTICLE_LIFETIME_STILL = 0.4
 const BULLET_DELAY = 0.1
 const IFRAME_TIME = 5.0 # 5s iframe
 
-const DAMAGE_FROM_BODYCONTACT = 30
+const DAMAGE_FROM_BODYCONTACT = 50
+const HEALTH_PICKUP_VAL = 25
+
+const UPGRADE_LEVELS = {
+    0: [Vector2(0, -1)],
+    1: [Vector2(-0.125, -1), Vector2(0.125, -1)],
+    2: [Vector2(-0.5, -1), Vector2(0, -1), Vector2(0.5, -1)],
+    3: [Vector2(-0.5, -1), Vector2(0, -1), Vector2(0.5, -1), Vector2(0, 1)],
+    4: [Vector2(-0.5, -1), Vector2(0, -1), Vector2(0.5, -1), Vector2(-0.125, 1), Vector2(0.125, 1)],
+    5: [Vector2(-0.5, -1), Vector2(0, -1), Vector2(0.5, -1), Vector2(-0.5, 1), Vector2(0, 1), Vector2(0.5, 1)],
+    6: [Vector2(-0.5, -1), Vector2(0, -1), Vector2(0.5, -1), Vector2(-0.5, 1), Vector2(0, 1), Vector2(0.5, 1), Vector2(1, 0), Vector2(-1, 0)],
+    7: [Vector2(-0.5, -1), Vector2(0, -1), Vector2(0.5, -1), Vector2(-0.5, 1), Vector2(0, 1), Vector2(0.5, 1), Vector2(1, 0), Vector2(-1, 0), Vector2(-0.125, -1), Vector2(0.125, -1), Vector2(-0.125, 1), Vector2(0.125, 1)],
+}
 
 const OVERHEAT_PER_SHOT = 5
 const OVERHEAT_COOLDOWN_TIME = 0.6 # .6s
@@ -24,6 +36,7 @@ var time = 0.0
 
 var health = 100
 var overheat = 0
+var upgrade_level = 0
 var is_overheat = false
 
 var velocity = Vector2(0, 0)
@@ -99,7 +112,8 @@ func _process(delta):
 
 func shoot_bullet():
     if not is_overheat and time - last_bullet_shot > BULLET_DELAY:
-        spawn_bullet(Vector2(0, -1))
+        spawn_bullet()
+
         Game.sfx("laser")
 
         overheat += OVERHEAT_PER_SHOT
@@ -110,16 +124,16 @@ func shoot_bullet():
 
         last_bullet_shot = time
 
-func spawn_bullet(direction_vector):
-    var bullet = bullet_prefab.instance()
-    var bullet_pos = get_global_pos()
-    bullet_pos.y -= 10.0
-    bullet.add_collision_exception_with(self)
-    bullet.make_hittable("enemy")
-    bullet.set_direction_vector(direction_vector)
-    bullet_container.add_child(bullet)
-    bullet.set_global_pos(bullet_pos)
-    return bullet
+func spawn_bullet():
+    var direction_vectors = UPGRADE_LEVELS[upgrade_level]
+
+    for vec in direction_vectors:
+        var bullet = bullet_prefab.instance()
+        var bullet_pos = get_global_pos()
+        bullet_pos.y -= 10.0
+        bullet.set_direction_vector(vec)
+        bullet_container.add_child(bullet)
+        bullet.set_global_pos(bullet_pos)
 
 func hit(damage):
     if time - last_hit_received > IFRAME_TIME:
@@ -144,3 +158,16 @@ func _on_earth_body_enter(body):
 func _on_earth_body_exit(body):
     if body.is_in_group("player"):
         is_in_earth_collider = false
+
+func on_health_pickup():
+    Game.sfx("healthpickup")
+    if health + HEALTH_PICKUP_VAL > 100:
+        health = 100
+    else:
+        health += HEALTH_PICKUP_VAL
+
+func on_powerup_pickup():
+    Game.sfx("powerup")
+
+    if upgrade_level + 1 < UPGRADE_LEVELS.size():
+        upgrade_level += 1
