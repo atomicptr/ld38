@@ -2,7 +2,8 @@ extends KinematicBody2D
 
 onready var particles = get_node("particles")
 onready var earth = get_node("../earth")
-onready var bullet_container = get_tree().get_root().get_node("game/bullet_container")
+onready var Game = get_tree().get_root().get_node("game")
+onready var bullet_container = Game.get_node("bullet_container")
 onready var sprite = get_node("rocket")
 
 onready var bullet_prefab = preload("res://entities/bullet.tscn")
@@ -17,7 +18,7 @@ const IFRAME_TIME = 5.0 # 5s iframe
 const DAMAGE_FROM_BODYCONTACT = 30
 
 const OVERHEAT_PER_SHOT = 5
-const OVERHEAT_COOLDOWN_TIME = 0.75 # .75s
+const OVERHEAT_COOLDOWN_TIME = 0.6 # .6s
 
 var time = 0.0
 
@@ -73,7 +74,10 @@ func _process(delta):
     # cool down weapon if it's overheat
     if overheat > 0:
         if time - last_overheat_cooltime > OVERHEAT_COOLDOWN_TIME:
-            overheat -= OVERHEAT_PER_SHOT
+            if is_overheat:
+                overheat -= OVERHEAT_PER_SHOT * 2
+            else:
+                overheat -= OVERHEAT_PER_SHOT
             last_overheat_cooltime = time
 
     if is_overheat and overheat <= 0:
@@ -120,9 +124,11 @@ func hit(damage):
         last_hit_received = time
 
     if health <= 0:
-        pass # TODO: you died, game over!
+        Game.game_over()
 
-    print("Health: ", health)
+func destroy():
+    Game.explode(get_global_pos())
+    queue_free()
 
 func on_contact_with_enemy():
     self.hit(DAMAGE_FROM_BODYCONTACT)
