@@ -30,10 +30,14 @@ func _process(delta):
         if time - last_go_explosion > EXPLOSION_TIMEOUT:
             var explo_pos = earth.get_global_pos()
 
-            explo_pos.x = (20 + randi() % 300 * earth.get_scale().x)
-            explo_pos.y = (150 + (randi() % 350 * earth.get_scale().y))
+            explo_pos.x = (20 + randi() % 300)
+            explo_pos.y = (150 + (randi() % 350))
 
-            explode(explo_pos)
+            var explosion = explode(explo_pos).get_node("particles")
+            explosion.set_param(11, 1.5) # initial size
+            explosion.set_amount(300)
+            explosion.set_randomness(13, 1.0) # random hues!!
+            explosion.set_color(Color("#FF0000"))
             last_go_explosion = time
 
     time += delta
