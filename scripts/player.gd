@@ -100,11 +100,13 @@ func _process(delta):
 func shoot_bullet():
     if not is_overheat and time - last_bullet_shot > BULLET_DELAY:
         spawn_bullet(Vector2(0, -1))
+        Game.sfx("laser")
 
         overheat += OVERHEAT_PER_SHOT
 
         if overheat >= 100:
             is_overheat = true
+            Game.sfx("overheat")
 
         last_bullet_shot = time
 
@@ -123,6 +125,7 @@ func hit(damage):
     if time - last_hit_received > IFRAME_TIME:
         health -= damage
         last_hit_received = time
+        Game.sfx("hit")
 
     if health <= 0:
         Game.game_over()

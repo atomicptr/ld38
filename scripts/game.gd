@@ -3,6 +3,7 @@ extends Node2D
 onready var explosion_prefab = preload("res://entities/explosion.tscn")
 onready var exp_container = get_node("explosion_container")
 onready var gameover_gui = get_node("gameover")
+onready var sounds = get_node("sounds")
 
 onready var earth = get_node("earth")
 
@@ -46,13 +47,17 @@ func add_score(add):
     score += add
     print("Score: ", score)
 
-func explode(pos):
+func explode(pos, sound=true):
     # testa
     var explosion = explosion_prefab.instance()
     exp_container.add_child(explosion)
     explosion.set_global_pos(pos)
     explosion.get_node("particles").set_emitting(true)
     explosions.push_back(explosion)
+
+    if sound:
+        sfx("explosion")
+
     return explosion
 
 func game_over():
@@ -65,3 +70,6 @@ func game_over():
 
     gameover_gui.show()
     gameover_gui.get_node("go_score").set_text("Score: " + String(score))
+
+func sfx(name, mult=false):
+    sounds.play(name, mult)

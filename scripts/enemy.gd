@@ -32,7 +32,7 @@ func hit():
 func set_speed_bonus(bonus):
     speed_bonus = bonus
 
-func destroy():
+func destroy(sound=true):
     Game.add_score(50)
-    Game.explode(get_global_pos())
+    Game.explode(get_global_pos(), sound)
     queue_free()

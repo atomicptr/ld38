@@ -17,20 +17,20 @@ func is_dead():
     return health == 0
 
 func decrease_health():
-    if anim_running:
+    if anim_running: # makes this kinda iframe-y, which is gud
         return
+
+    Game.sfx("explosion_earth")
 
     if health > 0:
         health -= 1
     else:
-        var explosion = Game.explode(get_global_pos()).get_node("particles")
+        var explosion = Game.explode(get_global_pos(), false).get_node("particles")
         explosion.set_param(2, 500) # Linear Velocity
         explosion.set_param(11, 1.5) # initial size
         explosion.set_amount(1000)
         explosion.set_color(Color("#FF0000"))
-
         sprite.hide()
-
         Game.game_over()
         return
 
@@ -48,13 +48,13 @@ func decrease_health():
     if health == 1:
         target_scale = Vector2(0.4, 0.4)
 
-    var explosion = Game.explode(get_global_pos()).get_node("particles")
+    var explosion = Game.explode(get_global_pos(), false).get_node("particles")
     explosion.set_param(2, 500) # Linear Velocity
     explosion.set_param(11, 1.5) # initial size
     explosion.set_amount(1000)
     explosion.set_color(Color("#0099FF"))
 
-    get_tree().call_group(0, "enemy", "destroy")
+    get_tree().call_group(0, "enemy", "destroy", false)
 
 func change_size(delta):
     var scalex = lerp(get_scale().x, target_scale.x, SCALE_SPEED * delta)
