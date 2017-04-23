@@ -7,7 +7,7 @@ const MOVEMENT_SPEED = 30.0
 var rnd_movement_speed_mod = 0.0
 var speed_bonus = 1.0
 
-var health = 15
+var health = 10
 
 func _ready():
     rnd_movement_speed_mod = randf() * (MOVEMENT_SPEED + speed_bonus)

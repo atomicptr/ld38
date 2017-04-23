@@ -53,7 +53,7 @@ func _process(delta):
         speed_bonus += 0.1
 
     # spawn boss after 50k score!
-    if Game.score > 10000 and not spawned_easter_egg:
+    if Game.score > 20000 and not spawned_easter_egg:
         spawned_easter_egg = true
         var boss = boss_prefab.instance()
         Game.add_child(boss)

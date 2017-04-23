@@ -16,7 +16,7 @@ const BULLET_DELAY = 0.1
 const IFRAME_TIME = 5.0 # 5s iframe
 
 const DAMAGE_FROM_BODYCONTACT = 50
-const DAMAGE_FROM_BODYCONTACT_SCARAB = 25
+const DAMAGE_FROM_BODYCONTACT_SCARAB = 30
 const HEALTH_PICKUP_VAL = 25
 
 const UPGRADE_LEVELS = {
@@ -51,6 +51,9 @@ func _ready():
     set_process(true)
 
 func _process(delta):
+    if is_hidden():
+        return
+
     if Input.is_action_pressed("left"):
         velocity.x -= (ACCELERATION * 0.8)
 
@@ -178,6 +181,7 @@ func _on_earth_body_exit(body):
 
 func on_health_pickup():
     Game.sfx("healthpickup")
+    Game.add_score(10)
     if health + HEALTH_PICKUP_VAL > 100:
         health = 100
     else:
@@ -185,10 +189,6 @@ func on_health_pickup():
 
 func on_powerup_pickup():
     Game.sfx("powerup")
-
+    Game.add_score(10)
     if upgrade_level + 1 < UPGRADE_LEVELS.size():
         upgrade_level += 1
-    else:
-        overheat -= 15
-        if overheat < 0:
-            overheat = 0
